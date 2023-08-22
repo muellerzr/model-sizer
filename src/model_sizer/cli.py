@@ -23,7 +23,7 @@ def main():
     table = prettytable.PrettyTable()
     table.title = f"Memory Usage for `{args.model_name}`"
 
-    table.field_names = ["dtype", "Largest Layer", "Total Size"]
+    table.field_names = ["dtype", "Largest Layer", "Total Size", "Training using Adam"]
     for dtype in args.dtypes:
         dtype_total_size = total_size
         dtype_largest_layer = largest_layer[0]
@@ -36,7 +36,8 @@ def main():
         elif dtype == "int4":
             dtype_total_size /= 8
             dtype_largest_layer /= 8
+        dtype_training_size = convert_bytes(dtype_total_size * 4)
         dtype_total_size = convert_bytes(dtype_total_size)
         dtype_largest_layer = convert_bytes(dtype_largest_layer)
-        table.add_row([dtype, dtype_largest_layer, dtype_total_size])
+        table.add_row([dtype, dtype_largest_layer, dtype_total_size, dtype_training_size])
     print(table)

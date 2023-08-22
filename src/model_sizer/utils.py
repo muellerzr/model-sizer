@@ -11,20 +11,21 @@ if is_timm_available():
 if is_transformers_available():
     from transformers import AutoConfig, AutoModel
 
+# TODO: Support diffusers models
 if is_diffusers_available():
     # requires weights downloading
     from diffusers import DiffusionPipeline
 
 def get_supported_library(model_name:str):
-    "Sees what library `model_name` should be used for"
+    "Check the Hub for the model's metadata to determine the library it is supported by."
     api = HfApi()
     model_info = api.model_info(model_name)
     return getattr(model_info, "library_name", False)
 
 def create_empty_model(model_name, library_name:str = None):
     """
-    Creates an empty model from its parent on the `Hub` to calculate
-    the overall memory consumption.
+    Creates an empty model from its parent library on the `Hub` 
+    to calculate the overall memory consumption.
 
     Args:
         model_name (`str`):
