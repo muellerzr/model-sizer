@@ -56,6 +56,7 @@ def create_empty_model(model_name, library_name:str = None):
     return model
 
 def convert_bytes(size):
+    "Converts `size` from bytes to the largest possible unit"
     for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
         if size < 1024.0:
             return f'{round(size, 2)} {x}'
@@ -64,6 +65,7 @@ def convert_bytes(size):
     return size
 
 def get_sizes(model:torch.nn.Module):
+    "Computes the total size of the model and its largest layer"
     sizes = compute_module_sizes(model)
     modules_to_treat = (
         list(model.named_parameters(recurse=False))
